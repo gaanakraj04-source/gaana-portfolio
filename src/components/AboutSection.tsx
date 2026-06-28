@@ -157,7 +157,7 @@ class Spheres extends InstancedMesh {
 
   constructor(renderer: WebGLRenderer, cfg: Record<string, number>, colors: string[]) {
     const pmrem = new PMREMGenerator(renderer)
-    const env = pmrem.fromScene(new RoomEnvironment(renderer)).texture
+    const env = pmrem.fromScene(new RoomEnvironment()).texture
     pmrem.dispose()
     const geo = new SphereGeometry(1, 20, 20)
     const mat = new MeshPhysicalMaterial({
