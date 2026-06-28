@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --offwhite: #F5F0E8;
+  --cream: #EDE8DC;
+  --navy: #0D2240;
+  --navy-mid: #1A3A5C;
+  --navy-light: #2E5F8A;
+  --accent: #5B8FA8;
+  --muted: #6B7A8D;
+  --font-display: 'Abril Fatface', serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'DM Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+  cursor: none !important;
+}
+
+body {
+  background: var(--offwhite);
+  color: var(--navy);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom cursor — handled entirely in CustomCursor.tsx via inline styles */
+
+/* Scroll fade-up animation */
+.fade-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* River wavy section divider */
+.river-divider svg {
+  display: block;
+  width: 100%;
+}
+
+/* Floating decorative images */
+.float-img {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.18;
+}
+
+/* Nav */
+nav a {
+}
+
+button, a {
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--offwhite);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--navy-light);
+  border-radius: 3px;
+}
+
+/* Section label style */
+.section-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.section-label::before {
+  content: '';
+  display: inline-block;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--muted);
+}
+
+/* Dithering CTA overrides */
+.dithering-wrap {
+  mix-blend-mode: multiply;
+}
+
+/* Project card hover */
+.project-row {
+  position: relative;
+  overflow: hidden;
+}
+.project-row::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--cream);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  z-index: 0;
+}
+.project-row:hover::before {
+  transform: scaleX(1);
+}
