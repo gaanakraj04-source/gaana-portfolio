@@ -50,7 +50,7 @@ type GravityProps = {
 
 type MatterBodyProps = {
   children: ReactNode
-  matterBodyOptions?: Matter.IBodyDefinition
+  matterBodyOptions?: Matter.IChamferableBodyDefinition
   isDraggable?: boolean
   bodyType?: "rectangle" | "circle"
   x?: number | string
