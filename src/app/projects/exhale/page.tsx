@@ -512,7 +512,7 @@ export default function ExhalePage() {
           <p style={{ fontSize: '0.68rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(27,42,74,0.4)', marginBottom: '0.75rem' }}>Feature Walkthrough</p>
           <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', fontWeight: 700, color: '#1B2A4A', marginBottom: '3rem', lineHeight: 1.2 }}>Inside the <em style={emSt}>app</em></h3>
 
-          {features.map(({ num, name, src, desc, callouts, deepDive }, i) => {
+          {features.map(({ num, name, src, desc, callouts }, i) => {
             const isEven = i % 2 !== 0
             return (
               <div key={num}>
