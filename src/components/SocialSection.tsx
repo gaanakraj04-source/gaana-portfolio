@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 
 const reels = [
   { url: 'https://www.instagram.com/reel/DZ7DS1bKoTW/', id: 'DZ7DS1bKoTW' },
-  { url: 'https://www.instagram.com/reel/DaJIEVdxOK9/', id: 'DaJIEVdxOK9' },
+  { url: 'https://www.instagram.com/reel/DZNx6Y2D0xv/', id: 'DZNx6Y2D0xv' },
   { url: 'https://www.instagram.com/reel/DZup17DEkpI/', id: 'DZup17DEkpI' },
 ]
 
