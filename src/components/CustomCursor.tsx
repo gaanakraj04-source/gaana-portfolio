@@ -19,8 +19,11 @@ export function CustomCursor() {
       if (!visible) {
         visible = true
         rx = mx; ry = my
-        el.style.opacity = '1'
       }
+      // Hide custom cursor when over gravity physics area
+      const target = e.target as HTMLElement
+      const overGravity = !!target.closest('.gravity-canvas')
+      el.style.opacity = overGravity ? '0' : '1'
     }
 
     const tick = () => {

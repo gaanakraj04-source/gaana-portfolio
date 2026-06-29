@@ -31,6 +31,14 @@ html {
   cursor: none !important;
 }
 
+/* Exception: let the physics gravity area show grab/grabbing cursor */
+.gravity-canvas, .gravity-canvas * {
+  cursor: grab !important;
+}
+.gravity-canvas:active, .gravity-canvas:active * {
+  cursor: grabbing !important;
+}
+
 body {
   background: var(--offwhite);
   color: var(--navy);

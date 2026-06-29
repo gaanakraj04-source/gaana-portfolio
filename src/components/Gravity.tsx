@@ -346,7 +346,7 @@ export const Gravity = forwardRef<GravityRef, GravityProps>(
       <GravityContext.Provider value={{ registerElement, unregisterElement }}>
         <div
           ref={canvas}
-          className={className}
+          className={`gravity-canvas${className ? ` ${className}` : ''}`}
           style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', ...style }}
           {...props}
         >
