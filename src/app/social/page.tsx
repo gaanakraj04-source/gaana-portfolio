@@ -1,53 +1,30 @@
 'use client'
-import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 
-const reels = [
-  { url: 'https://www.instagram.com/reel/DZ7DS1bKoTW/', id: 'DZ7DS1bKoTW' },
-  { url: 'https://www.instagram.com/reel/DaJIEVdxOK9/', id: 'DaJIEVdxOK9' },
-  { url: 'https://www.instagram.com/reel/DZup17DEkpI/', id: 'DZup17DEkpI' },
-  { url: 'https://www.instagram.com/reel/DZVNGZ8q9cA/', id: 'DZVNGZ8q9cA' },
-  { url: 'https://www.instagram.com/reel/DYDjtPmFJ9h/', id: 'DYDjtPmFJ9h' },
-  { url: 'https://www.instagram.com/reel/DZm_EkBKK6W/', id: 'DZm_EkBKK6W' },
+const videos = [
+  { src: '/videos/v1.mp4', views: '1,100', likes: '26', ig: 'https://www.instagram.com/reel/DZVNGZ8q9cA/' },
+  { src: '/videos/v2.mp4', views: '6,800', likes: '20', ig: 'https://www.instagram.com/reel/DZm_EkBKK6W/' },
+  { src: '/videos/v3.mp4', views: '7,200', likes: '41', ig: 'https://www.instagram.com/reel/DY9VB8zKvR9/' },
+  { src: '/videos/v4.mp4', views: '11,300', likes: '80', ig: 'https://www.instagram.com/reel/DZsFaTdzEo_/' },
+  { src: '/videos/v5.mp4', views: '22,500', likes: '40', ig: 'https://www.instagram.com/reel/DZ7AwZbFSSB/' },
+  { src: '/videos/v6.mp4', views: '10,400', likes: '48', ig: 'https://www.instagram.com/reel/DZj1Ng6EUJF/' },
+  { src: '/videos/v7.mp4', views: '17,400', likes: '35', ig: 'https://www.instagram.com/reel/DYDjtPmFJ9h/' },
+  { src: '/videos/v8.mp4', views: '28,000', likes: '190', ig: 'https://www.instagram.com/reel/DZwtRNpj9MA/' },
+  { src: '/videos/v9.mp4', views: '2,700', likes: '45', ig: 'https://www.instagram.com/reel/DaJIEVdxOK9/' },
+  { src: '/videos/v10.mp4', views: '21,500', likes: '160', ig: 'https://www.instagram.com/reel/DZ9u6uvIjV6/' },
+  { src: '/videos/v11.mp4', views: '3,200', likes: '25', ig: 'https://www.instagram.com/reel/DaA70nqIqTE/' },
 ]
-
-function ReelEmbed({ url }: { url: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (ref.current && ref.current.innerHTML === '') {
-      const blockquote = document.createElement('blockquote')
-      blockquote.className = 'instagram-media'
-      blockquote.setAttribute('data-instgrm-permalink', url)
-      blockquote.setAttribute('data-instgrm-version', '14')
-      blockquote.style.cssText = 'background:#fff;border:0;border-radius:3px;box-shadow:none;margin:0;min-width:100%;width:100%;'
-      ref.current.appendChild(blockquote)
-
-      if (!(window as any).instgrm) {
-        const script = document.createElement('script')
-        script.src = '//www.instagram.com/embed.js'
-        script.async = true
-        document.body.appendChild(script)
-        script.onload = () => (window as any).instgrm?.Embeds?.process()
-      } else {
-        ;(window as any).instgrm.Embeds.process()
-      }
-    }
-  }, [url])
-
-  return (
-    <div ref={ref} style={{ borderRadius: '12px', overflow: 'hidden', background: '#f5f5f5', minHeight: '500px' }} />
-  )
-}
 
 export default function SocialPage() {
   return (
     <div style={{ background: '#F5F0E8', minHeight: '100vh' }}>
+      {/* Nav */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 3rem', background: 'rgba(245,240,232,0.85)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(13,34,64,0.07)' }}>
         <Link href="/" style={{ fontFamily: "'Abril Fatface', serif", fontSize: '1.4rem', color: '#0D2240', textDecoration: 'none' }}>GKR</Link>
         <Link href="/" style={{ fontSize: '0.78rem', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#0D2240', textDecoration: 'none', opacity: 0.55 }}>← All Work</Link>
       </nav>
 
+      {/* Hero */}
       <div style={{ paddingTop: '10rem', paddingBottom: '4rem', paddingLeft: '3rem', paddingRight: '3rem', maxWidth: '1100px', margin: '0 auto' }}>
         <p style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(13,34,64,0.4)', display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', fontFamily: "'DM Sans', sans-serif" }}>
           <span style={{ display: 'inline-block', width: '2rem', height: '1px', background: 'rgba(13,34,64,0.3)' }} />
@@ -57,14 +34,58 @@ export default function SocialPage() {
           Content that<br />
           <em style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', color: 'rgba(13,34,64,0.45)' }}>connects</em>
         </h1>
-        <p style={{ fontSize: '1rem', lineHeight: 1.8, color: 'rgba(13,34,64,0.6)', maxWidth: '520px', fontFamily: "'DM Sans', sans-serif", fontWeight: 300 }}>
-          Short-form video content created for local brands in Birmingham — taking time to understand the product and people, then building content that genuinely engages.
+        <p style={{ fontSize: '1rem', lineHeight: 1.8, color: 'rgba(13,34,64,0.6)', maxWidth: '520px', fontFamily: "'DM Sans', sans-serif", fontWeight: 300, marginBottom: '2rem' }}>
+          Short-form video content created for local brands in Birmingham —
         </p>
+
+        {/* Stats */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', maxWidth: '700px', marginBottom: '1rem' }}>
+          {[
+            { brand: 'Via Delhi', views: '85.8%', likes: '66.2%' },
+            { brand: 'Londis', views: '229%', likes: '570%' },
+            { brand: "Diya's", views: '73.8%', likes: '73.2%' },
+          ].map(({ brand, views, likes }) => (
+            <div key={brand} style={{ padding: '1.25rem', background: 'rgba(13,34,64,0.05)', borderRadius: '8px', border: '1px solid rgba(13,34,64,0.08)' }}>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(13,34,64,0.4)', fontFamily: "'DM Sans', sans-serif", marginBottom: '0.75rem' }}>{brand}</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                <p style={{ fontFamily: "'Abril Fatface', serif", fontSize: '1.4rem', color: '#0D2240', lineHeight: 1 }}>{views} <span style={{ fontSize: '0.7rem', fontFamily: "'DM Sans', sans-serif", fontWeight: 300, color: 'rgba(13,34,64,0.5)' }}>views</span></p>
+                <p style={{ fontFamily: "'Abril Fatface', serif", fontSize: '1.4rem', color: '#0D2240', lineHeight: 1 }}>{likes} <span style={{ fontSize: '0.7rem', fontFamily: "'DM Sans', sans-serif", fontWeight: 300, color: 'rgba(13,34,64,0.5)' }}>likes</span></p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p style={{ fontSize: '0.78rem', color: 'rgba(13,34,64,0.4)', fontFamily: "'DM Sans', sans-serif", fontStyle: 'italic' }}>Growth achieved within one month of starting.</p>
       </div>
 
+      {/* Video grid */}
       <div style={{ padding: '0 3rem 6rem', maxWidth: '1100px', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
-          {reels.map(r => <ReelEmbed key={r.id} url={r.url} />)}
+          {videos.map((v, i) => (
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+              <div style={{ borderRadius: '12px', overflow: 'hidden', background: '#000', aspectRatio: '9/16', position: 'relative' }}>
+                <video
+                  src={v.src}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 0.25rem' }}>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <span style={{ fontSize: '0.78rem', color: 'rgba(13,34,64,0.55)', fontFamily: "'DM Sans', sans-serif" }}>
+                    👁 {v.views}
+                  </span>
+                  <span style={{ fontSize: '0.78rem', color: 'rgba(13,34,64,0.55)', fontFamily: "'DM Sans', sans-serif" }}>
+                    ❤ {v.likes}
+                  </span>
+                </div>
+                <a href={v.ig} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.72rem', color: 'rgba(13,34,64,0.45)', fontFamily: "'DM Sans', sans-serif", textDecoration: 'none', letterSpacing: '0.05em', borderBottom: '1px solid rgba(13,34,64,0.2)' }}>
+                  Instagram ↗
+                </a>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
