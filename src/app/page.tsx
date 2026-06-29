@@ -3,6 +3,7 @@ import { Nav } from '@/components/Nav'
 import { HeroSection } from '@/components/HeroSection'
 import { IntroSection } from '@/components/IntroSection'
 import { WorkSection } from '@/components/WorkSection'
+import { SocialSection } from '@/components/SocialSection'
 import { ContactSection } from '@/components/ContactSection'
 import { FishDivider } from '@/components/FishDivider'
 import { RiverDivider } from '@/components/RiverDivider'
@@ -27,6 +28,9 @@ export default function Home() {
 
       {/* Work — case studies */}
       <WorkSection />
+
+      {/* Social Media Content */}
+      <SocialSection />
 
       {/* Contact — Dithering CTA */}
       <ContactSection />
