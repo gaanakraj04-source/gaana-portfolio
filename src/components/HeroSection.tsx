@@ -168,7 +168,7 @@ export function HeroSection() {
 
         {/* Quote — right side, untouched */}
         <p
-          className="fade-up"
+          className="fade-up hero-quote"
           style={{
             position: 'absolute',
             right: '3rem',

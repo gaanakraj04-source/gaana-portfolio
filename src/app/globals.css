@@ -135,3 +135,53 @@ button, a {
 .project-row:hover::before {
   transform: scaleX(1);
 }
+
+/* ── MOBILE RESPONSIVENESS ── */
+@media (max-width: 768px) {
+
+  /* Work section — stack cards */
+  .work-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Social section — stack reels */
+  .social-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Hero quote — hide on mobile */
+  .hero-quote {
+    display: none !important;
+  }
+
+  /* Section padding */
+  .section-pad {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+
+  /* About bio grid — stack */
+  .about-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Hobby cards — 2 col on mobile */
+  .hobby-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Social video grid — 1 col */
+  .social-video-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Stats grid — stack */
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Exhale metadata grid */
+  .meta-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}

@@ -63,7 +63,7 @@ export function SocialSection() {
             See all →
           </Link>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
+        <div className="social-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
           {reels.map(r => <ReelEmbed key={r.id} url={r.url} />)}
         </div>
       </div>

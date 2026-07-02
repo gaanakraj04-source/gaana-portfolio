@@ -420,7 +420,7 @@ export function WorkSection() {
 
         {/* Cards grid */}
         <div
-          className="fade-up"
+          className="fade-up work-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(2, 1fr)',
