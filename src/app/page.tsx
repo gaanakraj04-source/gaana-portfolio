@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { Nav } from '@/components/Nav'
 
 export default function AboutPage() {
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -18,22 +19,7 @@ export default function AboutPage() {
 
   return (
     <div style={{ background: 'var(--offwhite)', minHeight: '100vh', color: 'var(--navy)' }}>
-      <nav style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: '1.5rem 3rem',
-        background: 'rgba(245,240,232,0.85)', backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid rgba(13,34,64,0.07)',
-      }}>
-        <Link href="/" style={{ fontFamily: "'Abril Fatface', serif", fontSize: '1.4rem', color: 'var(--navy)', textDecoration: 'none' }}>GKR</Link>
-        <ul style={{ display: 'flex', gap: '2.5rem', listStyle: 'none' }}>
-          {[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Work', href: '/#work' }, { label: 'Contact', href: '/#contact' }].map(({ label, href }) => (
-            <li key={label}>
-              <Link href={href} style={{ fontSize: '0.78rem', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--navy)', textDecoration: 'none', opacity: label === 'About' ? 1 : 0.55, borderBottom: label === 'About' ? '1px solid var(--navy)' : 'none', paddingBottom: '2px' }}>{label}</Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <Nav />
 
       {/* HERO */}
       <section style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

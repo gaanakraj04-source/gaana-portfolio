@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import { Nav } from '@/components/Nav'
 
 const videos = [
   { src: 'https://res.cloudinary.com/dmk6udelj/video/upload/v1782759740/v1_v5z8if.mp4', views: '1,100', likes: '26', ig: 'https://www.instagram.com/reel/DZVNGZ8q9cA/' },
@@ -16,11 +17,7 @@ const videos = [
 export default function SocialPage() {
   return (
     <div style={{ background: '#F5F0E8', minHeight: '100vh' }}>
-      {/* Nav */}
-      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 3rem', background: 'rgba(245,240,232,0.85)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(13,34,64,0.07)' }}>
-        <Link href="/" style={{ fontFamily: "'Abril Fatface', serif", fontSize: '1.4rem', color: '#0D2240', textDecoration: 'none' }}>GKR</Link>
-        <Link href="/" style={{ fontSize: '0.78rem', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#0D2240', textDecoration: 'none', opacity: 0.55 }}>← All Work</Link>
-      </nav>
+      <Nav />
 
       {/* Hero */}
       <div style={{ paddingTop: '10rem', paddingBottom: '4rem', paddingLeft: '3rem', paddingRight: '3rem', maxWidth: '1100px', margin: '0 auto' }}>
