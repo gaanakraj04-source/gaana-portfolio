@@ -81,19 +81,23 @@ function Callout({ text }: { text: string }) {
   )
 }
 
-function MoreWorkCard({ label, title, tags, readTime, bg, textColor, hovered, onEnter, onLeave }: { label: string; title: string; tags: string[]; readTime: string; bg: string; textColor: string; hovered: boolean; onEnter: () => void; onLeave: () => void }) {
+function MoreWorkCard({ label, title, tags, readTime, bg, textColor, hovered, onEnter, onLeave, href, image }: { label: string; title: string; tags: string[]; readTime: string; bg: string; textColor: string; hovered: boolean; onEnter: () => void; onLeave: () => void; href?: string; image?: string }) {
   const isLight = textColor === '#F5F2EC'
   const tagBorder = isLight ? 'rgba(245,242,236,0.3)' : 'rgba(27,42,74,0.25)'
   const tagColor = isLight ? 'rgba(245,242,236,0.7)' : 'rgba(27,42,74,0.6)'
   const badgeBg = isLight ? 'rgba(245,242,236,0.12)' : 'rgba(27,42,74,0.08)'
-  return (
+  const card = (
     <div onMouseEnter={onEnter} onMouseLeave={onLeave} style={{ background: bg, borderRadius: '20px', minHeight: '320px', padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', overflow: 'hidden', transition: 'transform 0.3s ease, box-shadow 0.3s ease', transform: hovered ? 'scale(1.02)' : 'scale(1)', boxShadow: hovered ? '0 20px 56px rgba(27,42,74,0.18)' : '0 4px 20px rgba(27,42,74,0.08)', cursor: 'pointer' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <p style={{ fontSize: '0.62rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: tagColor, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>{label}</p>
         <span style={{ fontSize: '0.68rem', letterSpacing: '0.06em', color: tagColor, background: badgeBg, padding: '0.3rem 0.75rem', borderRadius: '9999px', fontFamily: "'DM Sans', sans-serif" }}>{readTime}</span>
       </div>
-      <div style={{ flex: 1, margin: '1.5rem 0', background: isLight ? 'rgba(245,242,236,0.08)' : 'rgba(27,42,74,0.08)', borderRadius: '10px', minHeight: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <span style={{ fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: tagColor, opacity: 0.5 }}>Thumbnail coming soon</span>
+      <div style={{ flex: 1, margin: '1.5rem 0', background: isLight ? 'rgba(245,242,236,0.08)' : 'rgba(27,42,74,0.08)', borderRadius: '10px', minHeight: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+        {image ? (
+          <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        ) : (
+          <span style={{ fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: tagColor, opacity: 0.5 }}>Thumbnail coming soon</span>
+        )}
       </div>
       <div>
         <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', fontWeight: 700, color: textColor, lineHeight: 1.2, marginBottom: '1rem' }}>{title}</h3>
@@ -104,6 +108,7 @@ function MoreWorkCard({ label, title, tags, readTime, bg, textColor, hovered, on
       <div style={{ position: 'absolute', bottom: '2rem', right: '2rem', fontSize: '1.2rem', color: textColor, opacity: hovered ? 0.9 : 0.3, transition: 'opacity 0.3s ease, transform 0.3s ease', transform: hovered ? 'translate(4px, -4px)' : 'translate(0,0)' }}>↗</div>
     </div>
   )
+  return href ? <Link href={href} style={{ textDecoration: 'none' }}>{card}</Link> : card
 }
 
 // ── USER FLOW DIAGRAM — styled, static, navy ──
@@ -221,7 +226,7 @@ const features = [
 ]
 
 const moreWork = [
-  { label: 'Case Study 02', title: 'Project name coming soon', tags: ['UX Research', 'Mobile'], readTime: '5 min read', bg: '#1B2A4A', textColor: '#F5F2EC' },
+  { label: 'Case Study 02', title: 'Designing AR for Medicine', tags: ['UX Research', 'Systematic Review', 'AR / Healthcare'], readTime: '6 min read', bg: '#1B2A4A', textColor: '#F5F2EC', href: '/projects/ar-medical-research', image: '/images/ar-research-mockup.png' },
   { label: 'Case Study 03', title: 'Project name coming soon', tags: ['UI Design', 'Web'], readTime: '4 min read', bg: '#C9B99A', textColor: '#1B2A4A' },
 ]
 
