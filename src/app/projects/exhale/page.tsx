@@ -2,6 +2,19 @@
 import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 
+// Detects small screens so fixed desktop layouts can collapse on mobile.
+// Returns false during SSR and the first paint, then updates on mount/resize.
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= breakpoint)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [breakpoint])
+  return isMobile
+}
+
 const NAV_ITEMS = [
   { label: 'Overview', id: 'overview' },
   { label: 'Research', id: 'research' },
@@ -61,12 +74,12 @@ function RDiv({ from, to, flip = false }: { from: string; to: string; flip?: boo
 
 function PhoneMockup({ src, label }: { src?: string; label: string }) {
   if (!src) return (
-    <div style={{ width: "700px", margin: "0 auto", aspectRatio: '9/19', background: 'rgba(27,42,74,0.07)', borderRadius: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px dashed rgba(27,42,74,0.15)' }}>
+    <div style={{ width: "100%", maxWidth: "700px", margin: "0 auto", aspectRatio: '9/19', background: 'rgba(27,42,74,0.07)', borderRadius: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px dashed rgba(27,42,74,0.15)' }}>
       <span style={{ fontSize: '0.65rem', color: 'rgba(27,42,74,0.3)', textTransform: 'uppercase', textAlign: 'center', padding: '0 1rem' }}>{label}</span>
     </div>
   )
   return (
-    <div style={{ width: "700px", margin: "0 auto" }}>
+    <div style={{ width: "100%", maxWidth: "700px", margin: "0 auto" }}>
       <img src={src} alt={label} style={{ width: '100%', display: 'block' }} />
     </div>
   )
@@ -112,7 +125,7 @@ function MoreWorkCard({ label, title, tags, readTime, bg, textColor, hovered, on
 }
 
 // ── USER FLOW DIAGRAM — styled, static, navy ──
-function UserFlowDiagram() {
+function UserFlowDiagram({ isMobile = false }: { isMobile?: boolean }) {
   const sections = [
     {
       num: '01', label: 'Home / Dashboard',
@@ -137,7 +150,7 @@ function UserFlowDiagram() {
   ]
 
   return (
-    <div style={{ background: '#1B2A4A', borderRadius: '16px', padding: '3rem 2.5rem', fontFamily: "'DM Sans', sans-serif" }}>
+    <div style={{ background: '#1B2A4A', borderRadius: '16px', padding: isMobile ? '1.75rem 1.25rem' : '3rem 2.5rem', fontFamily: "'DM Sans', sans-serif" }}>
 
       {/* Top flow */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0', marginBottom: '2.5rem', flexWrap: 'wrap', rowGap: '0.5rem' }}>
@@ -168,7 +181,7 @@ function UserFlowDiagram() {
       </div>
 
       {/* 4 columns */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: '1rem' }}>
         {sections.map(({ num, label, features, outputs }) => (
           <div key={num} style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
 
@@ -237,6 +250,9 @@ export default function ExhalePage() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
   const [hoveredWork, setHoveredWork] = useState<number | null>(null)
   const compScrollRef = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
+  // Shared horizontal padding — tighter on phones so content isn't squeezed against the edges
+  const px = isMobile ? '1.25rem' : '3rem'
 
   useEffect(() => {
     const sectionEls = NAV_ITEMS.map(({ id }) => document.getElementById(id)).filter(Boolean)
@@ -263,14 +279,14 @@ export default function ExhalePage() {
     <div style={{ background: '#F5F2EC', minHeight: '100vh', color: '#1B2A4A', fontFamily: "'DM Sans', sans-serif" }}>
 
       {/* TOP NAV */}
-      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.25rem 3rem', background: 'rgba(245,242,236,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(27,42,74,0.07)' }}>
+      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: `1.25rem ${px}`, background: 'rgba(245,242,236,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(27,42,74,0.07)' }}>
         <Link href="/" style={{ fontFamily: "'Abril Fatface', serif", fontSize: '1.3rem', color: '#1B2A4A', textDecoration: 'none' }}>GKR</Link>
         <Link href="/#work" style={{ fontSize: '0.75rem', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#1B2A4A', textDecoration: 'none', opacity: 0.45 }}>← All work</Link>
       </nav>
 
       {/* STICKY BOTTOM NAV */}
-      <div style={{ position: 'fixed', bottom: '1.75rem', left: '50%', transform: 'translateX(-50%)', zIndex: 200, opacity: navVisible ? 1 : 0, pointerEvents: navVisible ? 'auto' : 'none', transition: 'opacity 0.4s ease' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem', background: 'rgba(27,42,74,0.9)', backdropFilter: 'blur(16px)', borderRadius: '9999px', padding: '0.35rem 0.45rem', boxShadow: '0 8px 32px rgba(27,42,74,0.3)', border: '1px solid rgba(245,242,236,0.08)' }}>
+      <div style={{ position: 'fixed', bottom: isMobile ? '1rem' : '1.75rem', left: '50%', transform: 'translateX(-50%)', zIndex: 200, opacity: navVisible ? 1 : 0, pointerEvents: navVisible ? 'auto' : 'none', transition: 'opacity 0.4s ease', maxWidth: '94vw' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem', background: 'rgba(27,42,74,0.9)', backdropFilter: 'blur(16px)', borderRadius: '9999px', padding: '0.35rem 0.45rem', boxShadow: '0 8px 32px rgba(27,42,74,0.3)', border: '1px solid rgba(245,242,236,0.08)', overflowX: 'auto', scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}>
           {NAV_ITEMS.map(({ label, id }) => (
             <button key={id} onClick={() => scrollTo(id)} style={{ background: activeSection === id ? 'rgba(245,242,236,0.14)' : 'transparent', border: 'none', borderRadius: '9999px', padding: '0.4rem 0.9rem', color: activeSection === id ? '#F5F2EC' : 'rgba(245,242,236,0.42)', fontSize: '0.7rem', fontWeight: activeSection === id ? 500 : 400, letterSpacing: '0.08em', textTransform: 'uppercase', cursor: 'pointer', transition: 'all 0.25s ease', fontFamily: "'DM Sans', sans-serif", whiteSpace: 'nowrap', outline: 'none' }}>
               {label}
@@ -280,7 +296,7 @@ export default function ExhalePage() {
       </div>
 
       {/* ══ HERO ══ */}
-      <section style={{ maxHeight: '90vh', minHeight: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '7rem 3rem 3rem', position: 'relative', overflow: 'hidden', background: 'linear-gradient(155deg, #F5F2EC 55%, #E9EDF6 100%)' }}>
+      <section style={{ maxHeight: isMobile ? 'none' : '90vh', minHeight: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: isMobile ? `6rem ${px} 3rem` : '7rem 3rem 3rem', position: 'relative', overflow: 'hidden', background: 'linear-gradient(155deg, #F5F2EC 55%, #E9EDF6 100%)' }}>
         <style>{`
           @keyframes slideInRight {
             from { opacity: 0; transform: translateY(-50%) translateX(100px); }
@@ -291,10 +307,12 @@ export default function ExhalePage() {
         {/* Watermark */}
         <div style={{ position: 'absolute', bottom: '-2rem', right: '-1rem', fontFamily: "'Abril Fatface', serif", fontSize: 'clamp(8rem, 22vw, 18rem)', color: 'rgba(27,42,74,0.035)', letterSpacing: '-0.04em', lineHeight: 1, userSelect: 'none', pointerEvents: 'none' }}>Exhale</div>
 
-        {/* Main screens — slides in from right */}
-        <div style={{ position: 'absolute', top: '50%', right: '-2rem', zIndex: 2, width: '52%', animation: 'slideInRight 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both' }}>
-          <img src="/images/exhale-main-screens.png" alt="Exhale app main screens" style={{ width: '100%', display: 'block', filter: 'drop-shadow(0 24px 48px rgba(27,42,74,0.15))' }} />
-        </div>
+        {/* Main screens — slides in from right (desktop only; overlaps text otherwise) */}
+        {!isMobile && (
+          <div style={{ position: 'absolute', top: '50%', right: '-2rem', zIndex: 2, width: '52%', animation: 'slideInRight 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both' }}>
+            <img src="/images/exhale-main-screens.png" alt="Exhale app main screens" style={{ width: '100%', display: 'block', filter: 'drop-shadow(0 24px 48px rgba(27,42,74,0.15))' }} />
+          </div>
+        )}
 
         <div style={{ maxWidth: '1100px', margin: '0 auto', width: '100%', position: 'relative', zIndex: 3 }}>
           <p style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(27,42,74,0.4)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -304,9 +322,17 @@ export default function ExhalePage() {
           <h1 style={{ fontFamily: "'Abril Fatface', serif", fontSize: 'clamp(80px, 12vw, 140px)', lineHeight: 0.92, color: '#1B2A4A', marginBottom: '1rem', letterSpacing: '-0.03em' }}>Exhale</h1>
           <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: 'clamp(1.1rem, 2.2vw, 1.6rem)', color: 'rgba(27,42,74,0.5)', marginBottom: '2rem', fontWeight: 400 }}>Turning cravings into quick wins</p>
           <p style={{ ...body, maxWidth: '480px', marginBottom: '2.5rem' }}>Led user research and interaction design for a mobile app that uses behavioural science and gamification to help young adults (18–25) quit smoking — replacing the smoking ritual with an interactive "lung-cleaning" game that activates the moment a craving peaks.</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, auto)', border: '1px solid rgba(27,42,74,0.12)', maxWidth: '680px', background: 'rgba(27,42,74,0.06)' }}>
+
+          {/* Inline app screens on mobile (replaces the overlapping absolute image) */}
+          {isMobile && (
+            <div style={{ marginBottom: '2.5rem' }}>
+              <img src="/images/exhale-main-screens.png" alt="Exhale app main screens" style={{ width: '100%', display: 'block', filter: 'drop-shadow(0 16px 32px rgba(27,42,74,0.15))' }} />
+            </div>
+          )}
+
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, auto)', border: '1px solid rgba(27,42,74,0.12)', maxWidth: '680px', background: 'rgba(27,42,74,0.06)' }}>
             {[{ label: 'Timeline', value: '3 Weeks' }, { label: 'Role', value: 'UI/UX Designer' }, { label: 'Team', value: 'Group Project' }, { label: 'Tools', value: 'Figma · Maze' }].map(({ label, value }, i) => (
-              <div key={label} style={{ padding: '1rem 1.25rem', background: '#F5F2EC', borderRight: i < 3 ? '1px solid rgba(27,42,74,0.1)' : 'none' }}>
+              <div key={label} style={{ padding: '1rem 1.25rem', background: '#F5F2EC', borderRight: isMobile ? (i % 2 === 0 ? '1px solid rgba(27,42,74,0.1)' : 'none') : (i < 3 ? '1px solid rgba(27,42,74,0.1)' : 'none'), borderTop: isMobile && i >= 2 ? '1px solid rgba(27,42,74,0.1)' : 'none' }}>
                 <div style={{ fontSize: '0.58rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(27,42,74,0.38)', marginBottom: '0.35rem' }}>{label}</div>
                 <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.92rem', fontWeight: 700, color: '#1B2A4A' }}>{value}</div>
               </div>
@@ -322,15 +348,15 @@ export default function ExhalePage() {
       <MarqueeStrip text="BEHAVIOURAL SCIENCE ✦ GAMIFICATION ✦ UX RESEARCH ✦ VISCERAL DESIGN ✦ INTERACTION DESIGN ✦" bgColor="#1B2A4A" textColor="#F5F2EC" speed={40} />
 
       {/* ══ CONTEXT ══ */}
-      <section id="overview" style={{ padding: '6rem 3rem', background: '#F5F2EC' }}>
+      <section id="overview" style={{ padding: `${isMobile ? '3.5rem' : '6rem'} ${px}`, background: '#F5F2EC' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <SLabel>Context</SLabel>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr', gap: "2rem", marginTop: '3rem', alignItems: 'start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1px 1fr', gap: "2rem", marginTop: isMobile ? '2rem' : '3rem', alignItems: 'start' }}>
             <div>
               <p style={{ fontSize: '0.68rem', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 600, color: '#1B2A4A', marginBottom: '1.25rem' }}>Who are we designing for?</p>
               <p style={{ fontSize: '1.05rem', lineHeight: 1.85, color: 'rgba(27,42,74,0.72)', fontWeight: 300 }}>Young adults aged <strong style={strongSt}>18–25 who smoke and want to quit</strong>, but find existing cessation apps too clinical, passive, and boring. They need immediate relief during a craving — not a tracker.</p>
             </div>
-            <div style={{ background: 'rgba(27,42,74,0.1)', minHeight: '120px', width: '1px' }} />
+            {!isMobile && <div style={{ background: 'rgba(27,42,74,0.1)', minHeight: '120px', width: '1px' }} />}
             <div>
               <p style={{ fontSize: '0.68rem', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 600, color: '#1B2A4A', marginBottom: '1.25rem' }}>What are we solving?</p>
               <p style={{ fontSize: '1.05rem', lineHeight: 1.85, color: 'rgba(27,42,74,0.72)', fontWeight: 300 }}>Traditional apps count sober days but go silent when a craving peaks. There's <strong style={strongSt}>no tool that activates in the 30–90 seconds</strong> of a craving moment. Exhale fills this gap with an interactive "lung-cleaning" game triggered instantly from the home screen.</p>
@@ -340,10 +366,10 @@ export default function ExhalePage() {
       </section>
 
       {/* ══ PROBLEM CARDS ══ */}
-      <section style={{ padding: '0 3rem 6rem', background: '#F5F2EC' }}>
+      <section style={{ padding: `0 ${px} ${isMobile ? '3.5rem' : '6rem'}`, background: '#F5F2EC' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <SLabel>The Problem</SLabel>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '2rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '1rem', marginTop: '2rem' }}>
             {problemCards.map(({ num, heading, desc }, i) => (
               <div key={num} onMouseEnter={() => setHoveredCard(i)} onMouseLeave={() => setHoveredCard(null)}
                 style={{ background: '#1B2A4A', borderRadius: '16px', padding: '2.25rem 2rem', position: 'relative', overflow: 'hidden', transition: 'transform 0.25s ease, box-shadow 0.25s ease', transform: hoveredCard === i ? 'translateY(-4px)' : 'translateY(0)', boxShadow: hoveredCard === i ? '0 16px 48px rgba(27,42,74,0.22)' : '0 4px 16px rgba(27,42,74,0.1)' }}>
@@ -368,7 +394,7 @@ export default function ExhalePage() {
           <h2 style={{ ...h2st, fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', marginTop: '1rem', marginBottom: '2.5rem' }}>Understanding the <em style={emSt}>user</em></h2>
 
           {/* Survey — text left, image right */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center', marginBottom: '4rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '2rem' : '3rem', alignItems: 'center', marginBottom: isMobile ? '2.5rem' : '4rem' }}>
             <div>
               <p style={{ fontSize: '0.68rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(27,42,74,0.4)', marginBottom: '1rem' }}>Survey Results</p>
               <p style={body}>We surveyed <strong style={strongSt}>47 young adults (18–25)</strong> and ran empathy mapping sessions to uncover why traditional cessation apps fail this demographic.</p>
@@ -439,14 +465,14 @@ export default function ExhalePage() {
       <MarqueeStrip text="CARD SORTING ✦ USER INTERVIEWS ✦ COMPETITIVE RESEARCH ✦ GUERRILLA TESTING ✦ USABILITY TESTING ✦" bgColor="#F5F2EC" textColor="#1B2A4A" speed={40} />
 
       {/* ══ DEFINE — DESIGN DECISIONS ══ */}
-      <section id="define" style={{ padding: '6rem 3rem', background: '#F5F2EC' }}>
+      <section id="define" style={{ padding: `${isMobile ? '3.5rem' : '6rem'} ${px}`, background: '#F5F2EC' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <SLabel>Design Decisions</SLabel>
           <h2 style={{ ...h2st, fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', marginTop: '1rem', marginBottom: '3.5rem' }}>How we <em style={emSt}>solved it</em></h2>
           {decisions.map(({ num, name, body: decBody }, i) => (
             <div key={num}>
               {i > 0 && <div style={{ height: '1px', background: 'rgba(27,42,74,0.1)', margin: '0 0 3rem' }} />}
-              <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: '3rem', alignItems: 'start', marginBottom: '3rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '160px 1fr', gap: isMobile ? '1rem' : '3rem', alignItems: 'start', marginBottom: isMobile ? '2.5rem' : '3rem' }}>
                 <div>
                   <p style={{ fontSize: '0.6rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(27,42,74,0.35)', marginBottom: '0.4rem' }}>Decision</p>
                   <div style={{ fontFamily: "'Abril Fatface', serif", fontSize: 'clamp(3rem, 5vw, 4.5rem)', color: '#1B2A4A', lineHeight: 1, opacity: 0.15 }}>{num}</div>
@@ -464,7 +490,7 @@ export default function ExhalePage() {
           <p style={{ fontSize: '0.68rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(27,42,74,0.4)', marginBottom: '1rem' }}>User Flow</p>
           <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.1rem, 1.8vw, 1.35rem)', fontWeight: 700, color: '#1B2A4A', marginBottom: '0.75rem' }}>From Splash Screen to <em style={emSt}>every feature</em></h3>
           <p style={{ ...body, maxWidth: '600px', marginBottom: '2rem' }}>Click each tab to explore the four main sections of the app and see what features live within each.</p>
-          <UserFlowDiagram />
+          <UserFlowDiagram isMobile={isMobile} />
         </div>
       </section>
 
@@ -502,7 +528,7 @@ export default function ExhalePage() {
           {/* Design goals */}
           <div style={{ height: '1px', background: 'rgba(27,42,74,0.1)', marginBottom: '3rem' }} />
           <p style={{ fontSize: '0.68rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(27,42,74,0.4)', marginBottom: '2rem' }}>Design Goals</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '4rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '1rem', marginBottom: isMobile ? '2.5rem' : '4rem' }}>
             {[{ num: '01', title: 'Speed', desc: 'Under 5 seconds to support via single-tap Game Zone' }, { num: '02', title: 'Completion', desc: '70% activity completion target through visual feedback' }, { num: '03', title: 'Retention', desc: '60% retention intent via visceral rewards' }].map(({ num, title, desc }) => (
               <div key={num} style={{ padding: '1.5rem', background: '#F5F2EC', borderRadius: '2px' }}>
                 <div style={{ fontFamily: "'Abril Fatface', serif", fontSize: '1.8rem', color: '#1B2A4A', opacity: 0.1 }}>{num}</div>
@@ -524,7 +550,7 @@ export default function ExhalePage() {
                 {i === 1 && <img src="/images/exhale-gamezone-3.png" alt="Game Zone screens" style={{ width: '100%', display: 'block', borderRadius: '12px', margin: '3rem 0' }} />}
                  {i === 2 && <img src="/images/exhale-dasboard-3.png" alt="Dashboard screens" style={{ width: '100%', display: 'block', borderRadius: '12px', margin: '3rem 0' }} />}
                  {i > 0 && <div style={{ height: '1px', background: 'rgba(27,42,74,0.1)', margin: '4rem 0' }} />}
-                <div style={{ display: 'grid', gridTemplateColumns: isEven ? '1fr 420px' : '420px 1fr', gap: "16rem", alignItems: "center" }}>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : (isEven ? '1fr 420px' : '420px 1fr'), gap: isMobile ? '1.5rem' : "16rem", alignItems: "center" }}>
                   <div>
                     <p style={{ fontSize: '0.6rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(27,42,74,0.35)', marginBottom: '0.5rem' }}>Feature {num}</p>
                     <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.3rem, 2vw, 1.7rem)', fontWeight: 700, color: '#1B2A4A', marginBottom: '0.85rem', lineHeight: 1.2 }}>{name}</h3>
@@ -544,14 +570,14 @@ export default function ExhalePage() {
       <RDiv from="#EEF0F7" to="#F5F2EC" flip />
 
       {/* ══ TESTING ══ */}
-      <div style={{ padding: '0 12rem' }}>
+      <div style={{ padding: isMobile ? `0 ${px}` : '0 12rem' }}>
   <img src="/images/exhale-support-3.png" alt="Support screens" style={{ width: '100%', display: 'block', borderRadius: '12px', margin: '3rem 0' }} />
 </div>
-      <section id="testing" style={{ padding: '6rem 3rem' }}>
+      <section id="testing" style={{ padding: `${isMobile ? '3.5rem' : '6rem'} ${px}` }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <SLabel>Testing</SLabel>
           <h2 style={{ ...h2st, fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', marginTop: '1rem' }}>Usability <em style={emSt}>testing</em></h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginTop: '2.5rem', alignItems: 'start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '2rem', marginTop: '2.5rem', alignItems: 'start' }}>
             <div>
               <p style={body}>Tested with <strong style={strongSt}>6 participants (4M, 2F, aged 18–25)</strong> via Maze and Microsoft Forms. Refined across two rounds against Nielsen's 10 Heuristics.</p>
               <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -585,13 +611,13 @@ export default function ExhalePage() {
       <RDiv from="#F5F2EC" to="#1B2A4A" />
 
       {/* ══ OUTCOMES ══ */}
-      <section id="outcomes" style={{ padding: '6rem 3rem', background: '#1B2A4A' }}>
+      <section id="outcomes" style={{ padding: `${isMobile ? '3.5rem' : '6rem'} ${px}`, background: '#1B2A4A' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <SLabel light>Outcomes</SLabel>
           <h2 style={{ fontFamily: "'Abril Fatface', serif", fontSize: 'clamp(2rem, 3.5vw, 3rem)', color: '#F5F2EC', margin: '1rem 0 3rem', lineHeight: 1.1 }}>
             What we <em style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', color: 'rgba(245,242,236,0.55)' }}>achieved</em>
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', background: 'rgba(245,242,236,0.08)', marginBottom: '4rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '1px', background: 'rgba(245,242,236,0.08)', marginBottom: isMobile ? '2.5rem' : '4rem' }}>
             {[{ metric: '< 5s', label: 'Time to craving support' }, { metric: '72%', label: 'Activity completion rate' }, { metric: '65%', label: 'Said they would use it daily' }].map(({ metric, label }) => (
               <div key={label} style={{ padding: '2.5rem 2rem', background: 'rgba(245,242,236,0.04)', textAlign: 'center' }}>
                 <div style={{ fontFamily: "'Abril Fatface', serif", fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: '#F5F2EC', lineHeight: 1 }}>{metric}</div>
@@ -599,7 +625,7 @@ export default function ExhalePage() {
               </div>
             ))}
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '2rem' : '3rem' }}>
             <div>
               <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.15rem', color: '#F5F2EC', marginBottom: '0.85rem' }}>What worked</h3>
               <p style={{ fontSize: '0.95rem', lineHeight: 1.85, color: 'rgba(245,242,236,0.55)', fontWeight: 300 }}>The single-tap Game Zone proved critical. Users responded strongly to the immediate visual reward of cleaning their digital lungs — the visceral feedback loop created genuine motivation.</p>
@@ -613,7 +639,7 @@ export default function ExhalePage() {
       </section>
 
       {/* ══ MORE WORK ══ */}
-      <section style={{ padding: '6rem 3rem', background: '#F5F2EC' }}>
+      <section style={{ padding: `${isMobile ? '3.5rem' : '6rem'} ${px}`, background: '#F5F2EC' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2.5rem' }}>
             <div>
@@ -624,7 +650,7 @@ export default function ExhalePage() {
             </div>
             <Link href="/#work" style={{ fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(27,42,74,0.5)', textDecoration: 'none', fontWeight: 500, whiteSpace: 'nowrap', paddingBottom: '0.25rem', borderBottom: '1px solid rgba(27,42,74,0.2)' }}>View all →</Link>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '1.25rem' }}>
             {moreWork.map((project, i) => (
               <MoreWorkCard key={i} {...project} hovered={hoveredWork === i} onEnter={() => setHoveredWork(i)} onLeave={() => setHoveredWork(null)} />
             ))}
@@ -633,7 +659,7 @@ export default function ExhalePage() {
       </section>
 
       {/* FOOTER */}
-      <div style={{ background: '#1B2A4A', padding: '2rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ background: '#1B2A4A', padding: `2rem ${px}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
         <Link href="/#work" style={{ fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(245,242,236,0.4)', textDecoration: 'none' }}>← All projects</Link>
         <span style={{ fontSize: '0.72rem', color: 'rgba(245,242,236,0.28)' }}>Gaana K Raj · 2025</span>
       </div>
