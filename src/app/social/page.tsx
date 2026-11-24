@@ -86,7 +86,7 @@ export default function SocialPage() {
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '2rem', maxWidth: '620px' }}>
           {[
-            { name: 'Yoga Roham', qr: '/images/qr-yogaroham.png', url: 'https://www.instagram.com/yogaroham_', accent: '#3B5BFF' },
+            { name: 'Yogaroham', qr: '/images/qr-yogaroham.png', url: 'https://www.instagram.com/yogaroham_', accent: '#3B5BFF' },
             { name: 'Brown White', qr: '/images/qr-brownwhite.png', url: 'https://www.instagram.com/brownwhite2026', accent: '#F15A3C' },
           ].map(({ name, qr, url, accent }) => (
             <a
