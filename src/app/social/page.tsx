@@ -77,6 +77,36 @@ export default function SocialPage() {
           ))}
         </div>
       </div>
+
+      {/* Accounts I manage */}
+      <div style={{ padding: '0 3rem 7rem', maxWidth: '1100px', margin: '0 auto' }}>
+        <p style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(13,34,64,0.4)', display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', fontFamily: "'DM Sans', sans-serif" }}>
+          <span style={{ display: 'inline-block', width: '2rem', height: '1px', background: 'rgba(13,34,64,0.3)' }} />
+          Accounts I manage
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '2rem', maxWidth: '620px' }}>
+          {[
+            { name: 'Yoga Roham', qr: '/images/qr-yogaroham.png', url: 'https://www.instagram.com/yogaroham_', accent: '#3B5BFF' },
+            { name: 'Brown White', qr: '/images/qr-brownwhite.png', url: 'https://www.instagram.com/brownwhite2026', accent: '#F15A3C' },
+          ].map(({ name, qr, url, accent }) => (
+            <a
+              key={name}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'flex', flexDirection: 'column', gap: '1rem', textDecoration: 'none', background: 'rgba(13,34,64,0.03)', border: '1px solid rgba(13,34,64,0.08)', borderRadius: '16px', padding: '1.25rem', transition: 'transform 0.25s ease, box-shadow 0.25s ease' }}
+            >
+              <div style={{ borderRadius: '12px', overflow: 'hidden' }}>
+                <img src={qr} alt={`${name} Instagram QR code`} style={{ width: '100%', display: 'block' }} />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 0.25rem' }}>
+                <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 700, color: '#0D2240' }}>{name}</span>
+                <span style={{ fontSize: '0.72rem', color: accent, fontFamily: "'DM Sans', sans-serif", fontWeight: 500, letterSpacing: '0.05em' }}>View on Instagram ↗</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
