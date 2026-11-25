@@ -29,8 +29,11 @@ export default function SocialPage() {
           Content that<br />
           <em style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', color: 'rgba(13,34,64,0.45)' }}>connects</em>
         </h1>
-        <p style={{ fontSize: '1rem', lineHeight: 1.8, color: 'rgba(13,34,64,0.6)', maxWidth: '520px', fontFamily: "'DM Sans', sans-serif", fontWeight: 300, marginBottom: '2rem' }}>
-          Short-form video content created for local brands in Birmingham —
+        <p style={{ fontSize: '1rem', lineHeight: 1.8, color: 'rgba(13,34,64,0.6)', maxWidth: '540px', fontFamily: "'DM Sans', sans-serif", fontWeight: 300, marginBottom: '2rem' }}>
+          I love turning real people and everyday moments into content people
+          actually want to watch. For the past four years I've planned, scripted,
+          filmed and edited short-form video — for brands across Birmingham and
+          for myself.
         </p>
 
         {/* Stats */}
@@ -48,6 +51,60 @@ export default function SocialPage() {
           ))}
         </div>
         <p style={{ fontSize: '0.78rem', color: 'rgba(13,34,64,0.4)', fontFamily: "'DM Sans', sans-serif", fontStyle: 'italic' }}>Growth achieved within one month of starting.</p>
+      </div>
+
+      {/* Experience — Achievements + Skills */}
+      <div style={{ padding: '2rem 3rem 4rem', maxWidth: '1100px', margin: '0 auto' }}>
+
+        {/* Achievements */}
+        <p style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(13,34,64,0.4)', display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.75rem', fontFamily: "'DM Sans', sans-serif" }}>
+          <span style={{ display: 'inline-block', width: '2rem', height: '1px', background: 'rgba(13,34,64,0.3)' }} />
+          Achievements
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '1.5rem', marginBottom: '3.5rem' }}>
+          {[
+            { stat: '436 → 12K+', label: 'Grew a tattoo & piercing studio’s Instagram following from scratch' },
+            { stat: '180K+ views', label: '1,600 shares for Via Delhi reels in just 90 days' },
+            { stat: '+111%', label: 'Watch-time growth at Londis Old Hill in a single month' },
+            { stat: '90K views', label: 'Mostly first-time viewers discovering Diya’s Menswear' },
+            { stat: '300K+ views', label: 'Grown on my own personal content channel' },
+            { stat: '7 influencers', label: 'Briefed, directed and filmed, plus live events & celebrity visits' },
+          ].map(({ stat, label }) => (
+            <div key={stat} style={{ padding: '1.5rem', background: 'rgba(13,34,64,0.04)', borderRadius: '12px', border: '1px solid rgba(13,34,64,0.08)' }}>
+              <p style={{ fontFamily: "'Abril Fatface', serif", fontSize: '1.7rem', color: '#0D2240', lineHeight: 1.05, marginBottom: '0.6rem' }}>{stat}</p>
+              <p style={{ fontSize: '0.82rem', lineHeight: 1.55, color: 'rgba(13,34,64,0.6)', fontFamily: "'DM Sans', sans-serif", fontWeight: 300 }}>{label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Skills & Toolkit */}
+        <p style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(13,34,64,0.4)', display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.75rem', fontFamily: "'DM Sans', sans-serif" }}>
+          <span style={{ display: 'inline-block', width: '2rem', height: '1px', background: 'rgba(13,34,64,0.3)' }} />
+          Skills &amp; Toolkit
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '2rem', marginBottom: '2.5rem' }}>
+          {[
+            { group: 'Craft', items: ['Content strategy', 'Scripting', 'Filming', 'Directing', 'Editing', 'Trend-spotting', 'On-camera presenting'] },
+            { group: 'Shoot', items: ['Sony ZV-E10', 'Mobile / phone'] },
+            { group: 'Edit', items: ['Premiere Pro', 'After Effects', 'CapCut'] },
+            { group: 'AI tools', items: ['Higgsfield', 'Google Veo'] },
+          ].map(({ group, items }) => (
+            <div key={group}>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(13,34,64,0.4)', fontFamily: "'DM Sans', sans-serif", marginBottom: '0.9rem' }}>{group}</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                {items.map(item => (
+                  <span key={item} style={{ fontSize: '0.8rem', color: '#0D2240', fontFamily: "'DM Sans', sans-serif", fontWeight: 300, padding: '0.4rem 0.8rem', background: 'rgba(13,34,64,0.05)', border: '1px solid rgba(13,34,64,0.1)', borderRadius: '9999px' }}>{item}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* UX note */}
+        <p style={{ fontSize: '0.95rem', lineHeight: 1.75, color: 'rgba(13,34,64,0.6)', maxWidth: '620px', fontFamily: "'DM Sans', sans-serif", fontWeight: 300, fontStyle: 'italic', paddingLeft: '1.25rem', borderLeft: '2px solid rgba(13,34,64,0.15)' }}>
+          With an MSc in UX Design, I always start with the audience: who’s watching,
+          what makes them stop scrolling, and what will make them act.
+        </p>
       </div>
 
       {/* Video grid */}
