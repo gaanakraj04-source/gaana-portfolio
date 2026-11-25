@@ -29,32 +29,16 @@ export default function SocialPage() {
           Content that<br />
           <em style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', color: 'rgba(13,34,64,0.45)' }}>connects</em>
         </h1>
-        <p style={{ fontSize: '1rem', lineHeight: 1.8, color: 'rgba(13,34,64,0.6)', maxWidth: '540px', fontFamily: "'DM Sans', sans-serif", fontWeight: 300, marginBottom: '2rem' }}>
+        <p style={{ fontSize: '1rem', lineHeight: 1.8, color: 'rgba(13,34,64,0.6)', maxWidth: '540px', fontFamily: "'DM Sans', sans-serif", fontWeight: 300, marginBottom: '0' }}>
           I love turning real people and everyday moments into content people
           actually want to watch. For the past four years I've planned, scripted,
           filmed and edited short-form video — for brands across Birmingham and
           for myself.
         </p>
-
-        {/* Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', maxWidth: '700px', marginBottom: '1rem' }}>
-          {[
-            { brand: 'Via Delhi', views: '85.8%', likes: '66.2%' },
-            { brand: 'Londis', views: '229%', likes: '570%' },
-            { brand: "Diya's", views: '73.8%', likes: '73.2%' },
-          ].map(({ brand, views, likes }) => (
-            <div key={brand} style={{ padding: '1.25rem', background: 'rgba(13,34,64,0.05)', borderRadius: '8px', border: '1px solid rgba(13,34,64,0.08)' }}>
-              <p style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(13,34,64,0.4)', fontFamily: "'DM Sans', sans-serif", marginBottom: '0.75rem' }}>{brand}</p>
-              <p style={{ fontFamily: "'Abril Fatface', serif", fontSize: '1.4rem', color: '#0D2240', lineHeight: 1, marginBottom: '0.25rem' }}>{views} <span style={{ fontSize: '0.7rem', fontFamily: "'DM Sans', sans-serif", fontWeight: 300, color: 'rgba(13,34,64,0.5)' }}>views</span></p>
-              <p style={{ fontFamily: "'Abril Fatface', serif", fontSize: '1.4rem', color: '#0D2240', lineHeight: 1 }}>{likes} <span style={{ fontSize: '0.7rem', fontFamily: "'DM Sans', sans-serif", fontWeight: 300, color: 'rgba(13,34,64,0.5)' }}>likes</span></p>
-            </div>
-          ))}
-        </div>
-        <p style={{ fontSize: '0.78rem', color: 'rgba(13,34,64,0.4)', fontFamily: "'DM Sans', sans-serif", fontStyle: 'italic' }}>Growth achieved within one month of starting.</p>
       </div>
 
       {/* Experience — Achievements + Skills */}
-      <div style={{ padding: '2rem 3rem 4rem', maxWidth: '1100px', margin: '0 auto' }}>
+      <div style={{ padding: '0 3rem 4rem', maxWidth: '1100px', margin: '0 auto' }}>
 
         {/* Achievements */}
         <p style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(13,34,64,0.4)', display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.75rem', fontFamily: "'DM Sans', sans-serif" }}>
